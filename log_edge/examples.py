@@ -6,7 +6,7 @@ BASE_PATH = './images'
 
 def examples(image_paths):
     for ip, ob, _ in image_paths:
-        print("Computing log for {}...".format(ip))
+        print("Computing LoG for {}...".format(ip))
         image = cv2.resize(cv2.imread(ip), (300, 300))
         log_img = gui.log_image(sigma=1, image=image)
         
