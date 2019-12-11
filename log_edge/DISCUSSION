@@ -23,3 +23,5 @@ Since I could not figure out how to produce a kernel with a variable sigma, I us
 a static kernel. The static kernel is [[0, -1, 0], [-1, 4, -1], [0, -1, 0]]. This
 kernel produces good results. It then follows that the slider in the GUI is not functional,
 but I included it anyways.
+The GUI does not automatically reload changes from the LoG. So the window must be closed
+to stop the program. Upon restarting the program, the changes will be seen.

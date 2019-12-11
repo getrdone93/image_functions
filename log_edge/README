@@ -10,6 +10,7 @@ The example is simple to run:
            python3 examples.py
 
 gui.py runs the GUI and allows the user to invoke the LoG function on the image. As noted in
-the DISCUSSION file, the slider is not functional. The GUI is simple to run:
+the DISCUSSION file, the slider is not functional. After clicking the LoG button, the window
+must be closed and the program restarted to see the changes. The GUI is simple to run:
 
            python3 gui.py
