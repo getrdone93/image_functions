@@ -1,6 +1,8 @@
 import numpy as np
 import math
 import cv2
+import tkinter as tk
+from PIL import ImageTk, Image
 
 def pad_segment(segment, kcy):
     h = len(segment)
@@ -68,7 +70,7 @@ def log_kernel(sigma, const_factor, m, xy_grid):
             result[ri][ci] = (((r_sq - sig_sq) / sig_sq) - (r_sq / 2 * sig_sq)) + const_factor
 
     result = np.asarray([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
-    result = np.asarray([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
+    #result = np.asarray([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
     return result
 
 def apply_image(image, func, func_args):
@@ -108,8 +110,55 @@ def log_image(sigma, image):
     zero_cross_tensor = np.transpose(np.asarray(zero_cross), (1, 0, 2))
     return zero_cross_tensor
 
-if __name__ == '__main__':
+def test_log():
     kobe = cv2.resize(cv2.imread('./images/kobe_bryant.jpg'), (300, 300))
     log_kobe = log_image(sigma=0.1, image=kobe)
     print(log_kobe.shape)
     cv2.imwrite('./log_kobe.jpg', log_kobe)
+
+def build_gui(image_path, log_image_path):
+    start_y = 50
+    image_gap = 40
+    w_dim = 1000
+    label_gap = 20
+    slider_gap = 10
+    button_gap = 60
+    image_label_gap = 20
+    image_shape = (224, 224)
+
+    window = tk.Tk()
+    window.title('Histogram equalization')
+    window.geometry('1000x500')
+    window.configure(background='grey')
+
+    #images
+    raw_image = Image.fromarray(cv2.cvtColor(cv2.resize(
+        cv2.imread(image_path), image_shape), cv2.COLOR_BGR2RGB), 'RGB')
+    image = ImageTk.PhotoImage(raw_image)
+
+    raw_log_image = Image.fromarray(cv2.cvtColor(cv2.resize(
+        cv2.imread(log_image_path), image_shape), cv2.COLOR_BGR2RGB), 'RGB')
+    log_image = ImageTk.PhotoImage(raw_log_image)
+
+    #left side
+    og  = 'Original'
+    left_image_label = tk.Text(window, height=1, width=len(og))
+    left_image_label.place(x=0, y=start_y - image_label_gap)
+    left_image_label.insert(tk.END, og)
+    panel1 = tk.Label(image=image)
+    panel1.place(x=0, y=start_y)
+
+    #right side
+    li_str = 'LoG Image'
+    right_image_label = tk.Text(window, height=1, width=len(li_str))
+    right_image_label.place(x=w_dim - image.width(), y=start_y - image_label_gap)
+    right_image_label.insert(tk.END, li_str)
+    panel2 = tk.Label(image=log_image)
+    panel2.place(x=w_dim - log_image.width(), y=start_y)
+
+    window.mainloop()
+
+if __name__ == '__main__':
+    image_path = './images/kobe_bryant.jpg'
+    log_image_path = './images/log_kobe.jpg'
+    build_gui(image_path=image_path, log_image_path=log_image_path)
