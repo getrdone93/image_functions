@@ -43,17 +43,6 @@ def zero_cross(segment, x, y, s_func=sign):
     down_left = s_func(num=segment[x-1][y+1])
     return (left != right) or (up != down) or (up_left != down_right) or (up_right != down_left)
 
-def zero_crossing(segment, ds, de, zc_func=zero_cross, fr=1):
-    data_segment = segment[ds:de + 1, ds:de + 1]
-    crossing_segment = np.zeros(data_segment.shape)
-    for ri, rv in enumerate(data_segment):
-        for ci, cv in enumerate(data_segment[ri]):
-            if segment[ri][ci] > -fr and segment[ri][ci] < fr and zero_cross(segment=segment, x=ri, y=ci):
-                crossing_segment[ri][ci] = 255
-            else:
-                crossing_segment[ri][ci] = 0
-    return crossing_segment
-
 def log_kernel_size(sigma):
     m = math.ceil(sigma * 7)
     dim = len(range(-m, m + 1))
@@ -88,7 +77,7 @@ def apply_image(image, func, func_args):
         result.append(func(segment=image[:, :, d], **func_args))
     return result
 
-def zero_crossing_ad(segment, ds, de, zc_func=zero_cross):
+def zero_crossing(segment, ds, de, zc_func=zero_cross):
     data_segment = segment[ds:de + 1, ds:de + 1]
     crossing_segment = np.zeros(data_segment.shape)
     for ri, rv in enumerate(data_segment):
@@ -115,7 +104,7 @@ def log_image(sigma, image):
     log_image = apply_image(image=ps, func=convolution, func_args={'kernel': kernel, 'kc': center, 
                                                                  'ds': ds, 'de': de, 'p': pad})
     log_tensor = np.transpose(np.asarray(log_image), (1, 2, 0))
-    zero_cross = zero_crossing_ad(segment=log_tensor, ds=ds, de=de)
+    zero_cross = zero_crossing(segment=log_tensor, ds=ds, de=de)
     zero_cross_tensor = np.transpose(np.asarray(zero_cross), (1, 0, 2))
     return zero_cross_tensor
 
