@@ -3,6 +3,7 @@ import math
 import cv2
 import tkinter as tk
 from PIL import ImageTk, Image
+import os.path as path
 
 def pad_segment(segment, kcy):
     h = len(segment)
@@ -60,14 +61,14 @@ def x_y_vals(m, center):
     return grid
 
 def log_kernel(sigma, const_factor, m, xy_grid):
-    result = np.zeros((m, m))
-    for ri, rv in enumerate(result):
-        for ci, cv in enumerate(result[ri]):
-            x, y = xy_grid[ri][ci]
-            r_sq = x**2 + y**2
-            sig_sq = sigma**2
-            sig_cube = sigma**4
-            result[ri][ci] = (((r_sq - sig_sq) / sig_sq) - (r_sq / 2 * sig_sq)) + const_factor
+    # result = np.zeros((m, m))
+    # for ri, rv in enumerate(result):
+    #     for ci, cv in enumerate(result[ri]):
+    #         x, y = xy_grid[ri][ci]
+    #         r_sq = x**2 + y**2
+    #         sig_sq = sigma**2
+    #         sig_cube = sigma**4
+    #         result[ri][ci] = (((r_sq - sig_sq) / sig_sq) - (r_sq / 2 * sig_sq)) + const_factor
 
     result = np.asarray([[0, -1, 0], [-1, 4, -1], [0, -1, 0]])
     #result = np.asarray([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
@@ -94,9 +95,11 @@ def zero_crossing(segment, ds, de, zc_func=zero_cross):
     return crossing_segment
 
 def log_image(sigma, image):
-    m, center = log_kernel_size(sigma=sigma)
+    #m, center = log_kernel_size(sigma=sigma)
+    m, center = 1, 1
     grid = x_y_vals(m=m, center=center)
     kernel = log_kernel(sigma=sigma, const_factor=0, m=m, xy_grid=grid)
+    
     padded = apply_image(image=image, func=pad_segment, func_args={'kcy': center})
     pi_sh, dse, pad = padded[0]
     new_shape = (pi_sh.shape[0], pi_sh.shape[1], image.shape[-1])
@@ -116,6 +119,13 @@ def test_log():
     print(log_kobe.shape)
     cv2.imwrite('./log_kobe.jpg', log_kobe)
 
+
+def invoke_log(sigma, image, log_path):
+    print('Computing LoG...')
+    image = log_image(sigma=1, image=image)
+    cv2.imwrite(log_path, image)
+    print("Wrote image to {}".format(log_path))
+
 def build_gui(image_path, log_image_path):
     start_y = 50
     image_gap = 40
@@ -133,16 +143,20 @@ def build_gui(image_path, log_image_path):
     window.configure(background='grey')
 
     #images
-    raw_image = Image.fromarray(cv2.cvtColor(cv2.resize(
-        cv2.imread(image_path), image_shape), cv2.COLOR_BGR2RGB), 'RGB')
+    cv_image = cv2.resize(
+        cv2.imread(image_path), image_shape)
+    raw_image = Image.fromarray(cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB), 'RGB')
     image = ImageTk.PhotoImage(raw_image)
 
-    raw_log_image = Image.fromarray(cv2.cvtColor(cv2.resize(
-        cv2.imread(log_image_path), image_shape), cv2.COLOR_BGR2RGB), 'RGB')
-    log_image = ImageTk.PhotoImage(raw_log_image)
+    if path.exists(log_image_path):
+        raw_log_image = Image.fromarray(cv2.cvtColor(cv2.resize(
+            cv2.imread(log_image_path), image_shape), cv2.COLOR_BGR2RGB), 'RGB')
+        log_image = ImageTk.PhotoImage(raw_log_image)
+    else:
+        log_image = image
 
     #left side
-    og  = 'Original'
+    og = 'Original'
     panel1 = tk.Label(image=image)
     panel1.place(x=0, y=start_y)
 
@@ -157,7 +171,9 @@ def build_gui(image_path, log_image_path):
 
     #LoG button
     lb_w, lb_h = 5, 1
-    log_button = tk.Button(window, text='LoG', width=lb_w, height=lb_h)
+    log_button = tk.Button(window, text='LoG', width=lb_w, height=lb_h, 
+                           command=lambda: invoke_log(sigma=1, image=cv_image, 
+                                                      log_path=log_image_path))
     log_button.place(x=(w_dim / 2) - lb_w, y=(h_dim / 2) - lb_h / 2)
 
     window.mainloop()
