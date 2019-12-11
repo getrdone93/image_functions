@@ -1,0 +1,15 @@
+Programs written by me:
+         - examples.py
+         - gui.py
+
+examples.py runs the image examples and outputs six windows. The windows are paired together
+by object. LoG is computed for three images under the images directory: field, flower, and tree. 
+The console will show output that describes the good and bad qualities of the images. 
+The example is simple to run:
+   
+           python3 examples.py
+
+gui.py runs the GUI and allows the user to invoke the LoG function on the image. As noted in
+the DISCUSSION file, the slider is not functional. The GUI is simple to run:
+
+           python3 gui.py
