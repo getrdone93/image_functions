@@ -119,16 +119,17 @@ def test_log():
 def build_gui(image_path, log_image_path):
     start_y = 50
     image_gap = 40
-    w_dim = 1000
+    w_dim = 800
+    h_dim = 300
     label_gap = 20
-    slider_gap = 10
+    slider_gap = 5
     button_gap = 60
     image_label_gap = 20
     image_shape = (224, 224)
 
     window = tk.Tk()
-    window.title('Histogram equalization')
-    window.geometry('1000x500')
+    window.title('LoG Eddge Detection')
+    window.geometry('800x300')
     window.configure(background='grey')
 
     #images
@@ -142,19 +143,22 @@ def build_gui(image_path, log_image_path):
 
     #left side
     og  = 'Original'
-    left_image_label = tk.Text(window, height=1, width=len(og))
-    left_image_label.place(x=0, y=start_y - image_label_gap)
-    left_image_label.insert(tk.END, og)
     panel1 = tk.Label(image=image)
     panel1.place(x=0, y=start_y)
 
     #right side
-    li_str = 'LoG Image'
-    right_image_label = tk.Text(window, height=1, width=len(li_str))
-    right_image_label.place(x=w_dim - image.width(), y=start_y - image_label_gap)
-    right_image_label.insert(tk.END, li_str)
+    edge_str = 'Edge Image'
     panel2 = tk.Label(image=log_image)
     panel2.place(x=w_dim - log_image.width(), y=start_y)
+    slider_x = tk.Scale(window, from_=0.1, to=5.0, digits = 2, resolution=0.1, 
+                        orient=tk.HORIZONTAL, variable=0, length=w_dim-10)
+    slider_x.set(0)
+    slider_x.place(x=0, y=slider_gap)
+
+    #LoG button
+    lb_w, lb_h = 5, 1
+    log_button = tk.Button(window, text='LoG', width=lb_w, height=lb_h)
+    log_button.place(x=(w_dim / 2) - lb_w, y=(h_dim / 2) - lb_h / 2)
 
     window.mainloop()
 
