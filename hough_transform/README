@@ -2,7 +2,9 @@ Programs written by me:
          - examples.py
          - log_funcs.py
 
-examples.py outputs 12 windows, 4 for each of the 3 examples. Example run:
+examples.py outputs 12 windows, 4 for each of the 3 examples. The console will 
+show output pertaining to each example. The windows can be grouped easily
+by the name of the window. Example run:
 
             python3 examples.py
 
