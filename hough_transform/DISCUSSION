@@ -1,0 +1,25 @@
+(a) examples.py was developed on my machine. It runs on the CPU, so no special
+hardware is needed. The python3 interpreter was designed to accept examples.py,
+so do not use python 2. The specific python3 interpreter is 3.6.9. The required
+libraries can all be installed via pip3. Here is the list:
+
+          - cv2
+          - numpy
+          - matplotlib
+
+(b) This program can compute the LoG of an input image and the pspace of an 
+image. It can then plot the pspace and show this along with the LoG image and
+the original image. The code uses maps to ensure fast lookups and resizes
+images to make everything compatible with the LoG functions. The plot of
+the pspace uses many different colors for the lines.
+
+(c) I had difficulty in computing the final lines of the pspace. I do not 
+know how to find the points of the highest intersection in the pspace. I found
+that they were all vertical lines, which complicated the problem. This might
+mean that I did not compute the pspace properly, but I followed the algorithm
+on the slides. I instead echo'd the input image in place of the original image
+with the lines from the hough transformation.
+I also could not figure out how to make a quad image or a simple GUI to group
+the images together. Instead, examples.py will output four images per example
+for a total of 12 windows. The windows are named by example so that they can
+be grouped easily.

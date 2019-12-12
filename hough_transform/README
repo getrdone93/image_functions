@@ -1,0 +1,14 @@
+Programs written by me:
+         - examples.py
+         - log_funcs.py
+
+examples.py outputs 12 windows, 4 for each of the 3 examples. Example run:
+
+            python3 examples.py
+
+log_funcs.py does not execute via a main call. It is a library that computes
+LoG for the examples.py file.
+
+Directories:
+    images - This contains the input images.
+    pspace - This contains outputs from the program. This should not be modified.

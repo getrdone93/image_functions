@@ -1,6 +1,6 @@
 (a) examples.py and gui.py were developed on my machine. They run on the CPU, so no special
 hardware is needed. The python3 interpreter was designed to accept these files,
-so do not use python 2. The specific python3 interpreter is 3.6.9. he required
+so do not use python 2. The specific python3 interpreter is 3.6.9. The required
 libraries can all be installed via pip3. Here is the list:
 
           - cv2
