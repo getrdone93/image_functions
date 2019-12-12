@@ -9,13 +9,13 @@ libraries can all be installed via pip3. Here is the list:
           - PIL (ImageTk, Image)
 
 (b) This directory features a GUI that allows the user to invoke an LoG function on an image
-of a famous basketball player. The code is capable of reacting to the button press and performing
+of a basketball player. The code is capable of reacting to the button press and performing
 the LoG kernel in real time. It also features an examples file that reads in three images 
 and runs a LoG discrete kernel over the images. It displays the input and output in all cases.
 
 (c) I encountered a few problems in this work. First, I do not know how to create a kernel
 with the function provided. I tried to follow an article that gave a different equation
-https://homepages.inf.ed.ac.uk/rbf/HIPR2/log.htm, and this equation did not work either.
+https://homepages.inf.ed.ac.uk/rbf/HIPR2/log.htm, but this equation did not work either.
 The main problem is that I could not figure out how to produce 0 values after the LoG
 kernel was convolved over the image. Thus, the zero crossing stage would always produce
 a black image. The initial image values were always too high.

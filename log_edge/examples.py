@@ -18,7 +18,7 @@ def examples(image_paths):
     for _, ob, descr in image_paths:
         print()
         print("*" * stars)
-        print("{} description: {}".format(ob.capitalize(), descr))
+        print("{} description:\n{}".format(ob.capitalize(), descr))
         print("*" * stars)
         print()
 
@@ -28,7 +28,7 @@ def examples(image_paths):
 if __name__ == '__main__':
     flower_descr = "The flower is a good example for LoG because the lines are distinguishable\n"\
                    + "from background. The pedals serve as a boundary as the intensities are\n"\
-                   + "different from the green background. This helps the LoG kernel find the\n"\
+                   + "different from the green background. This helps the LoG kernel find the "\
                    + "edges."
     tree_descr = "The tree is a bad example for edge detection. This image makes it difficult\n"\
                  + "for the LoG kernel because the intensities are nearly all the same. Also,\n"\

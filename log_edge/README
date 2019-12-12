@@ -14,3 +14,7 @@ the DISCUSSION file, the slider is not functional. After clicking the LoG button
 must be closed and the program restarted to see the changes. The GUI is simple to run:
 
            python3 gui.py
+
+Directories:
+    images - Input images used by gui.py and examples.py. This should not be modified.
+    
